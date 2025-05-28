@@ -1,0 +1,9 @@
+{
+  "blocks": [
+    "grass_block",
+    "sand",
+    "water",
+    "cobblestone",
+    "stone"
+  ]
+}

@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WorldGuardCuboidFloorChanger:jar">
+    <output-path>$USER_HOME$/Documents/.purpur1.21/plugins</output-path>
+    <root id="archive" name="WorldGuardCuboidFloorChanger.jar">
+      <element id="module-output" name="me.floor_changer.world_guard_floor_changer.main" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/floor.json" />
+    </root>
+  </artifact>
+</component>

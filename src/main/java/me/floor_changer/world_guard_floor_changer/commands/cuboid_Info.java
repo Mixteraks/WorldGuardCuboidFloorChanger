@@ -1,27 +1,22 @@
 package me.floor_changer.world_guard_floor_changer.commands;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
-import me.floor_changer.world_guard_floor_changer.WorldGuardFloorChanger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public class changeFloor implements CommandExecutor {
-
+public class cuboid_Info implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 //      Check if sender is not a player
@@ -33,21 +28,14 @@ public class changeFloor implements CommandExecutor {
 //        Sender is a player
 
         final Player player = (Player) sender;
-        String replaceBlock = args[0];
-        List<String> aviableBlocks = WorldGuardFloorChanger.getInstance().getFloorBlocks();
         final ProtectedCuboidRegion cuboid = getCuboidRegionUnderPlayer(player);
 
         if(cuboid != null){
             //Stand in cuboid
+            player.sendMessage("§aCuboid Information:");
             if(isPlayerOwnerOfRegion(player, cuboid)){
                 //Jeżeli cuboid w jakim stoi gracz jest jego właścicielem
                 player.sendMessage("§aTa działka należy do ciebie!");
-
-                player.sendMessage("§a§l Dostępne bloki do zamiany podłoża");
-                for (int i = 0; i < aviableBlocks.size(); i++) {
-                    player.sendMessage("§a§l "+ i + ". minecraft:" + aviableBlocks.get(i));
-                }
-
             } else{
                 //Jeżeli cuboid w jakim stoi gracz nie jest jego właścicielem
                 player.sendMessage("§cTa działka nie należy do ciebie!");
@@ -55,7 +43,7 @@ public class changeFloor implements CommandExecutor {
         }
         else{
             //doesn't stand in cuboid
-            player.sendMessage("§cMusisz stać na działce aby ją zmienić!");
+            player.sendMessage("§cMusisz stać na działce!");
         }
 
         return true;
@@ -76,11 +64,6 @@ public class changeFloor implements CommandExecutor {
             }
         }
         return null;
-    }
-
-    public static boolean blockIsOnList(String arg){
-
-        return false;
     }
 
     //Sprawdza czy dany gracz jest właścicielem danego cuboid
