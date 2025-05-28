@@ -1,0 +1,11 @@
+name: worldGuardFloorChanger
+version: '0.2'
+main: me.floor_changer.world_guard_floor_changer.World_guard_floor_changer
+api-version: '1.21'
+depend: [WorldGuard]
+
+commands:
+  changefloor:
+    description: Change your guard floor to other block
+    aliases:
+      - change

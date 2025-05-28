@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="world_guard_floor_changer:jar">
+    <output-path>$USER_HOME$/Documents/.purpur1.21/plugins</output-path>
+    <root id="archive" name="world_guard_floor_changer.jar">
+      <element id="module-output" name="world_guard_floor_changer.main" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>
