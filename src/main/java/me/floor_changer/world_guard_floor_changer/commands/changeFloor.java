@@ -2,13 +2,15 @@ package me.floor_changer.world_guard_floor_changer.commands;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import java.util.List;
+
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -17,8 +19,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class changeFloor implements CommandExecutor {
 
@@ -33,7 +33,10 @@ public class changeFloor implements CommandExecutor {
 //        Sender is a player
 
         final Player player = (Player) sender;
-        String replaceBlock = args[0];
+        String replaceBlock = "";
+        if(args.length != 0){
+            replaceBlock = args[0];
+        }
         List<String> aviableBlocks = WorldGuardFloorChanger.getInstance().getFloorBlocks();
         final ProtectedCuboidRegion cuboid = getCuboidRegionUnderPlayer(player);
 
@@ -43,9 +46,16 @@ public class changeFloor implements CommandExecutor {
                 //Jeżeli cuboid w jakim stoi gracz jest jego właścicielem
                 player.sendMessage("§aTa działka należy do ciebie!");
 
-                player.sendMessage("§a§l Dostępne bloki do zamiany podłoża");
-                for (int i = 0; i < aviableBlocks.size(); i++) {
-                    player.sendMessage("§a§l "+ i + ". minecraft:" + aviableBlocks.get(i));
+                if(!findItemOnList(replaceBlock, aviableBlocks)){
+                    //Nie znalazło bloku do zmiany podłoża
+
+                    player.sendMessage("§a§lNie znaleziono itemu '"+ replaceBlock +"'\nDostępne bloki do zamiany podłoża");
+                    for (int i = 0; i < aviableBlocks.size(); i++) {
+                        player.sendMessage("§a§l "+ i + ". minecraft:" + aviableBlocks.get(i));
+                    }
+                } else {
+                    // Znalazło blok do zmiany podłoża
+                    player.sendMessage("Zmieniono podłoge na blok minecraft:"+replaceBlock);
                 }
 
             } else{
@@ -78,8 +88,20 @@ public class changeFloor implements CommandExecutor {
         return null;
     }
 
-    public static boolean blockIsOnList(String arg){
+    public boolean findItemOnList(String item, List<String> list){
+        String szukany = item.toLowerCase();
+        for (int i = 0; i < list.size(); i++) {
+            String aktualny = list.get(i).toLowerCase();
 
+            // Tu porównujemy zawartość (metodą equals), nie referencje
+            boolean takiSam = aktualny.equals(szukany);
+            WorldGuardFloorChanger.getInstance().getLogger().info(aktualny + ", " + szukany + " | " + takiSam
+            );
+
+            if (takiSam) {
+                return true;
+            }
+        }
         return false;
     }
 

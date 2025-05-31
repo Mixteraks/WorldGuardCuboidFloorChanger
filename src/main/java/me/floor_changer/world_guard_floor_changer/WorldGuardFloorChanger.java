@@ -49,6 +49,10 @@ public final class WorldGuardFloorChanger extends JavaPlugin {
         return instance;
     }
 
+    public void sendMessage(String mess){
+        getLogger().info(mess);
+    }
+
     private void loadBlocks() {
         try (InputStream is = getResource("floor.json")) {
             if (is == null) {
